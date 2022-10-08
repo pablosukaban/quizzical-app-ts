@@ -10,7 +10,9 @@ const ButtonCustom = ({
     return (
         <button
             onClick={onClick}
-            className={'bg-primary text-dimWhite px-6 py-4 rounded font-semibold text-lg'}
+            className={
+                'bg-white border-2 border-gray-600 text-black px-6 py-2 rounded font-semibold text-lg shadow-lg active:shadow-none active:translate-y-0.5 transition'
+            }
         >
             {text}
         </button>
