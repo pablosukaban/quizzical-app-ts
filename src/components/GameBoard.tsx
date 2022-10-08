@@ -95,7 +95,8 @@ const GameBoard: React.FC<GameBoardProps> = ({
                     }
                 >
                     <h1>
-                        Вы набрали: <span className={'font-bold'}>{count}</span>
+                        Вы набрали: <strong>{count}</strong> /{' '}
+                        <strong>5</strong>
                     </h1>
                     <ButtonCustom
                         text={'Начать заново'}

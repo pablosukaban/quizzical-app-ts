@@ -24,26 +24,54 @@ const SingleAnswer: React.FC<SingleAnswerProps> = ({
     gameOver,
 }) => {
     let checked = {};
+    // if (gameOver) {
+    //     if (answer.pressed) {
+    //         checked = {
+    //             backgroundColor: '#F8BCBC',
+    //             color: 'black',
+    //             ['pointerEvents']: 'none',
+    //         };
+    //     } else if ((answer.pressed && answer.correct) || answer.correct) {
+    //         checked = {
+    //             backgroundColor: '#94D7A2',
+    //             color: 'black',
+    //             ['pointerEvents']: 'none',
+    //         };
+    //     } else {
+    //         checked = {
+    //             color: 'lightgray',
+    //             ['pointerEvents']: 'none',
+    //         };
+    //     }
+    // }
+
     if (gameOver) {
         if (answer.pressed) {
+            checked = {
+                backgroundColor: '#F8BCBC',
+                color: 'black',
+                outline: '2px solid #AD6A6AFF',
+                ['pointerEvents']: 'none',
+            };
+
             if (answer.correct) {
                 checked = {
                     backgroundColor: '#94D7A2',
                     color: 'black',
-                    ['pointer-events']: 'none',
-                };
-            } else {
-                checked = {
-                    backgroundColor: '#F8BCBC',
-                    color: 'black',
-                    ['pointer-events']: 'none',
+                    outline: '2px solid #62A96FFF',
+                    ['pointerEvents']: 'none',
                 };
             }
+        } else if (answer.correct) {
+            checked = {
+                backgroundColor: '#94D7A2',
+                color: 'black',
+                ['pointerEvents']: 'none',
+            };
         } else {
             checked = {
-                color: 'rgb(107,114,128)',
-                outline: '2px solid rgb(209, 213, 219)',
-                ['pointer-events']: 'none',
+                color: 'lightgray',
+                ['pointerEvents']: 'none',
             };
         }
     }
@@ -62,7 +90,6 @@ const SingleAnswer: React.FC<SingleAnswerProps> = ({
         </li>
     );
 };
-
 export const QuestionComponent: React.FC<QuestionComponentProps> = ({
     question,
     handleSelect,
