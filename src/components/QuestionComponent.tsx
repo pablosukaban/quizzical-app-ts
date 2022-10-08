@@ -1,18 +1,73 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export type QuestionComponentProps = {
+type AnswerType = { value: string; pressed: boolean; correct: boolean };
+
+type QuestionComponentProps = {
     question: {
         question: string;
-        answers: { value: string; pressed: boolean }[];
+        answers: AnswerType[];
     };
     handleSelect: (value: string, index: number) => void;
     index: number;
+    gameOver: boolean;
+};
+
+type SingleAnswerProps = {
+    answer: AnswerType;
+    handleClick: (value: string) => void;
+    gameOver: boolean;
+};
+
+const SingleAnswer: React.FC<SingleAnswerProps> = ({
+    answer,
+    handleClick,
+    gameOver,
+}) => {
+    let checked = {};
+    if (gameOver) {
+        if (answer.pressed) {
+            if (answer.correct) {
+                checked = {
+                    backgroundColor: '#94D7A2',
+                    color: 'black',
+                    ['pointer-events']: 'none',
+                };
+            } else {
+                checked = {
+                    backgroundColor: '#F8BCBC',
+                    color: 'black',
+                    ['pointer-events']: 'none',
+                };
+            }
+        } else {
+            checked = {
+                color: 'rgb(107,114,128)',
+                outline: '2px solid rgb(209, 213, 219)',
+                ['pointer-events']: 'none',
+            };
+        }
+    }
+
+    return (
+        <li
+            key={answer.value}
+            onClick={() => handleClick(answer.value)}
+            className={`text-center outline outline-gray-300 text-gray-700 hover:outline-gray-800 rounded-xl py-1 px-4 cursor-pointer transition ${
+                answer.pressed &&
+                'bg-gray-600 text-gray-200 outline-none border-none'
+            } `}
+            style={checked}
+        >
+            {answer.value}
+        </li>
+    );
 };
 
 export const QuestionComponent: React.FC<QuestionComponentProps> = ({
     question,
     handleSelect,
     index,
+    gameOver,
 }) => {
     const [singleQuestion, setSingleQuestion] = useState(question);
 
@@ -40,16 +95,12 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({
                 }
             >
                 {singleQuestion.answers.map((answer) => (
-                    <li
+                    <SingleAnswer
                         key={answer.value}
-                        onClick={() => handleClick(answer.value)}
-                        className={`text-center outline outline-gray-400 text-gray-700 hover:outline-gray-800 rounded-xl py-1 px-4 cursor-pointer transition ${
-                            answer.pressed &&
-                            'bg-gray-800 text-gray-200 outline-none border-none'
-                        }`}
-                    >
-                        {answer.value}
-                    </li>
+                        answer={answer}
+                        handleClick={handleClick}
+                        gameOver={gameOver}
+                    />
                 ))}
             </ul>
         </div>

@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { QuestionType } from '../App';
 import ButtonCustom from './ButtonCustom';
 import { shuffle } from '../utils/shuffle';
@@ -29,6 +29,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
         ].map((q) => ({
             value: q,
             pressed: false,
+            correct: q === singleQuestion.correct_answer,
         }));
         const obj = {
             question: singleQuestion.question,
@@ -37,19 +38,17 @@ const GameBoard: React.FC<GameBoardProps> = ({
         result.push(obj);
     }
 
-    const handleFinishGame = () => {
-        setGameOver(true);
+    useEffect(() => {
         let c = 0;
-        for (let i = 0; i < questionList.length - 1; i++) {
-            for (let j = 0; j < chosenAnswers.length - 1; j++) {
-                if (questionList[i].correct_answer === chosenAnswers[j].value) {
+        for (const question of questionList) {
+            for (const chosen of chosenAnswers) {
+                if (question.correct_answer === chosen.value) {
                     c += 1;
                 }
             }
         }
-        console.log(count);
         setCount(c);
-    };
+    }, [gameOver]);
 
     const handleSelect = (value: string, index: number) => {
         const userAnswer = { value: value, index: index };
@@ -59,7 +58,11 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 chosenAnswers.pop();
             }
         }
-        chosenAnswers.push(userAnswer);
+        setChosenAnswers((prevState) => [...prevState, userAnswer]);
+    };
+
+    const handleFinishGame = () => {
+        setGameOver(true);
     };
 
     if (!isLoaded) return <h1>Loading...</h1>;
@@ -76,6 +79,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                         question={question}
                         handleSelect={handleSelect}
                         index={index}
+                        gameOver={gameOver}
                     />
                 ))}
             </div>
