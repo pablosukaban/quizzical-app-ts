@@ -16,19 +16,18 @@ function App() {
     const [questionsList, setQuestionsList] = useState<QuestionType[]>([]);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    const handleStartClick = () => {
-        setIsStarted(true);
-    };
-
-
     useEffect(() => {
         let ignore = false;
         const fetchData = async () => {
-            const response = await fetch(URL);
-            const data = await response.json();
-            if (!ignore) {
-                setIsLoaded(true);
-                setQuestionsList(data.results);
+            try {
+                const response = await fetch(URL);
+                const data = await response.json();
+                if (!ignore) {
+                    setIsLoaded(true);
+                    setQuestionsList(data.results);
+                }
+            } catch (err) {
+                console.log(err);
             }
         };
 
@@ -51,11 +50,15 @@ function App() {
                     <p className={'text-xl'}>Описание</p>
                     <Button
                         text={'Начать игру'}
-                        onClick={() => handleStartClick()}
+                        onClick={() => setIsStarted(true)}
                     />
                 </div>
             ) : (
-                <GameBoard isLoaded={isLoaded} questionList={questionsList} handleRestart={() => setIsStarted(false)}/>
+                <GameBoard
+                    isLoaded={isLoaded}
+                    questionList={questionsList}
+                    handleRestart={() => setIsStarted(false)}
+                />
             )}
         </div>
     );
