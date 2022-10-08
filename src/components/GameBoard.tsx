@@ -16,19 +16,42 @@ type QuestionComponentProps = {
 };
 
 const QuestionComponent: React.FC<QuestionComponentProps> = ({ question }) => {
+    const [singleQuestion, setSingleQuestion] = useState(question);
+
+    const handleClick = (value: string) => {
+        // // setSingleQuestion((prevState) => {
+        // //     return prevState.answers.map((item) => ({
+        // //         ...item,
+        // //         pressed: item.value === value,
+        // //     }));
+        // });
+
+        const temp = {
+            ...singleQuestion,
+            answers: singleQuestion.answers.map((answer) => ({
+                ...answer,
+                pressed: answer.value === value,
+            })),
+        };
+
+        setSingleQuestion(temp);
+    };
+
     return (
         <div className={'border-b-2 pb-4 w-full'}>
-            <h1 className={'font-semibold text-xl'}>{question.question}</h1>
+            <h1 className={'font-semibold text-xl'}>
+                {singleQuestion.question}
+            </h1>
             <ul
                 className={
                     'flex justify-start items-baseline gap-4 text-base leading-tight pt-2'
                 }
             >
-                {question.answers.map((answer) => (
+                {singleQuestion.answers.map((answer) => (
                     <li
                         key={answer.value}
-                        onClick={() => console.log(answer)}
-                        className={`text-center border border-gray-400 text-gray-700 hover:text-gray-800 hover:border-gray-800 rounded-xl py-1 px-4 cursor-pointer transition ${
+                        onClick={() => handleClick(answer.value)}
+                        className={`text-center border border-gray-400 text-gray-700 hover:border-gray-800 rounded-xl py-1 px-4 cursor-pointer transition ${
                             answer.pressed &&
                             'bg-gray-800 text-gray-200 border-none'
                         }`}
