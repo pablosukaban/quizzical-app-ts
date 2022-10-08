@@ -20,6 +20,7 @@ function App() {
         setIsStarted(true);
     };
 
+
     useEffect(() => {
         let ignore = false;
         const fetchData = async () => {
@@ -38,14 +39,8 @@ function App() {
         };
     }, []);
 
-    console.log(questionsList);
-
     return (
-        <div
-            className={
-                'min-h-screen flex justify-center items-center py-6'
-            }
-        >
+        <div className={'min-h-screen flex justify-center items-center py-6'}>
             {!isStarted ? (
                 <div
                     className={
@@ -60,7 +55,7 @@ function App() {
                     />
                 </div>
             ) : (
-                <GameBoard isLoaded={isLoaded} questionList={questionsList} />
+                <GameBoard isLoaded={isLoaded} questionList={questionsList} handleRestart={() => setIsStarted(false)}/>
             )}
         </div>
     );

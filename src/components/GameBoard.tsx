@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { QuestionType } from '../App';
 import ButtonCustom from './ButtonCustom';
 import { shuffle } from '../utils/shuffle';
@@ -6,6 +6,7 @@ import { shuffle } from '../utils/shuffle';
 type GameBoardProps = {
     isLoaded: boolean;
     questionList: QuestionType[];
+    handleRestart: () => void;
 };
 
 type QuestionComponentProps = {
@@ -13,19 +14,18 @@ type QuestionComponentProps = {
         question: string;
         answers: { value: string; pressed: boolean }[];
     };
+    handleSelect: (value: string, index: number) => void;
+    index: number;
 };
 
-const QuestionComponent: React.FC<QuestionComponentProps> = ({ question }) => {
+const QuestionComponent: React.FC<QuestionComponentProps> = ({
+    question,
+    handleSelect,
+    index,
+}) => {
     const [singleQuestion, setSingleQuestion] = useState(question);
 
     const handleClick = (value: string) => {
-        // // setSingleQuestion((prevState) => {
-        // //     return prevState.answers.map((item) => ({
-        // //         ...item,
-        // //         pressed: item.value === value,
-        // //     }));
-        // });
-
         const temp = {
             ...singleQuestion,
             answers: singleQuestion.answers.map((answer) => ({
@@ -35,6 +35,7 @@ const QuestionComponent: React.FC<QuestionComponentProps> = ({ question }) => {
         };
 
         setSingleQuestion(temp);
+        handleSelect(value, index);
     };
 
     return (
@@ -51,9 +52,9 @@ const QuestionComponent: React.FC<QuestionComponentProps> = ({ question }) => {
                     <li
                         key={answer.value}
                         onClick={() => handleClick(answer.value)}
-                        className={`text-center border border-gray-400 text-gray-700 hover:border-gray-800 rounded-xl py-1 px-4 cursor-pointer transition ${
+                        className={`text-center outline outline-gray-400 text-gray-700 hover:outline-gray-800 rounded-xl py-1 px-4 cursor-pointer transition ${
                             answer.pressed &&
-                            'bg-gray-800 text-gray-200 border-none'
+                            'bg-gray-800 text-gray-200 outline-none border-none'
                         }`}
                     >
                         {answer.value}
@@ -64,9 +65,16 @@ const QuestionComponent: React.FC<QuestionComponentProps> = ({ question }) => {
     );
 };
 
-const GameBoard: React.FC<GameBoardProps> = ({ isLoaded, questionList }) => {
-    if (!isLoaded) return <h1>Loading...</h1>;
-    // TODO объединить ответы, перемешать ответы, сделать из ответов объект {ответ, нажат}, слушатель событий
+const GameBoard: React.FC<GameBoardProps> = ({
+    isLoaded,
+    questionList,
+    handleRestart,
+}) => {
+    const [gameOver, setGameOver] = useState(false);
+    const [count, setCount] = useState(0);
+    const [chosenAnswers, setChosenAnswers] = useState<
+        { value: string; index: number }[]
+    >([]);
     const result = [];
 
     for (const singleQuestion of questionList) {
@@ -84,6 +92,36 @@ const GameBoard: React.FC<GameBoardProps> = ({ isLoaded, questionList }) => {
         result.push(obj);
     }
 
+    const handleFinishGame = () => {
+        setGameOver(true);
+        let c = 0;
+        for (let i = 0; i < questionList.length - 1; i++) {
+            for (let j = 0; j < chosenAnswers.length - 1; j++) {
+                if (questionList[i].correct_answer === chosenAnswers[j].value) {
+                    c += 1;
+                }
+            }
+        }
+        console.log(count);
+        setCount(c);
+    };
+
+    const handleRestartGame = () => {
+        handleRestart();
+    };
+
+    const handleSelect = (value: string, index: number) => {
+        const userAnswer = { value: value, index: index };
+        if (chosenAnswers.length) {
+            const lastAnswer = chosenAnswers[chosenAnswers.length - 1];
+            if (index === lastAnswer.index) {
+                chosenAnswers.pop();
+            }
+        }
+        chosenAnswers.push(userAnswer);
+    };
+
+    if (!isLoaded) return <h1>Loading...</h1>;
     return (
         <div
             className={
@@ -91,17 +129,31 @@ const GameBoard: React.FC<GameBoardProps> = ({ isLoaded, questionList }) => {
             }
         >
             <div className={'flex flex-col justify-center items-start gap-6 '}>
-                {result.map((question) => (
+                {result.map((question, index) => (
                     <QuestionComponent
                         key={question.question}
                         question={question}
+                        handleSelect={handleSelect}
+                        index={index}
                     />
                 ))}
             </div>
-            <ButtonCustom
-                text={'Завершить'}
-                onClick={() => console.log('finished')}
-            />
+            {!gameOver ? (
+                <ButtonCustom
+                    text={'Завершить'}
+                    onClick={() => handleFinishGame()}
+                />
+            ) : (
+                <div className={'flex justify-center items-center gap-4'}>
+                    <h1>
+                        Вы набрали: <span className={'font-bold'}>{count}</span>
+                    </h1>
+                    <ButtonCustom
+                        text={'Начать заново'}
+                        onClick={handleRestart}
+                    />
+                </div>
+            )}
         </div>
     );
 };
