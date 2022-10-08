@@ -1,14 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import Button from './components/ButtonCustom';
+import GameBoard from './components/GameBoard';
 
 const URL = 'https://opentdb.com/api.php?amount=5';
 
 function App() {
     const [isStarted, setIsStarted] = useState(false);
+    const [questionsList, setQuestionsList] = useState([]);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const handleStartClick = () => {
         setIsStarted(true);
     };
+
+    useEffect(() => {
+        let ignore = false;
+        const fetchData = async () => {
+            const response = await fetch(URL);
+            const data = await response.json();
+            if (!ignore) {
+                setIsLoaded(true);
+                setQuestionsList(data.results);
+            }
+        };
+
+        fetchData();
+
+        return () => {
+            ignore = true;
+        };
+    }, []);
+
+    console.log(questionsList);
 
     return (
         <div
@@ -31,9 +54,7 @@ function App() {
                         />
                     </>
                 ) : (
-                    <>
-                        <h1>Start?</h1>
-                    </>
+                    <GameBoard isLoaded={isLoaded} />
                 )}
             </div>
         </div>
