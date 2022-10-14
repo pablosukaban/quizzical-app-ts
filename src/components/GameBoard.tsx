@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { QuestionType } from '../App';
 import ButtonCustom from './ButtonCustom';
 import { shuffle } from '../utils/shuffle';
@@ -10,16 +10,7 @@ export type GameBoardProps = {
     handleRestart: () => void;
 };
 
-const GameBoard: React.FC<GameBoardProps> = ({
-    isLoaded,
-    questionList,
-    handleRestart,
-}) => {
-    const [gameOver, setGameOver] = useState(false);
-    const [count, setCount] = useState(0);
-    const [chosenAnswers, setChosenAnswers] = useState<
-        { value: string; index: number }[]
-    >([]);
+const getFormattedList = (questionList: QuestionType[]) => {
     const result = [];
 
     for (const singleQuestion of questionList) {
@@ -38,6 +29,22 @@ const GameBoard: React.FC<GameBoardProps> = ({
         };
         result.push(obj);
     }
+
+    return result;
+};
+
+const GameBoard: React.FC<GameBoardProps> = ({
+    isLoaded,
+    questionList,
+    handleRestart,
+}) => {
+    const [gameOver, setGameOver] = useState(false);
+    const [count, setCount] = useState(0);
+    const [chosenAnswers, setChosenAnswers] = useState<
+        { value: string; index: number }[]
+    >([]);
+
+    const result = getFormattedList(questionList);
 
     useEffect(() => {
         let c = 0;
@@ -67,6 +74,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
     };
 
     if (!isLoaded) return <h1>Loading...</h1>;
+
     return (
         <div
             className={
@@ -85,10 +93,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 ))}
             </div>
             {!gameOver ? (
-                <ButtonCustom
-                    text={'Завершить'}
-                    onClick={handleFinishGame}
-                />
+                <ButtonCustom text={'Завершить'} onClick={handleFinishGame} />
             ) : (
                 <div
                     className={

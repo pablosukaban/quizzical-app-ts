@@ -25,7 +25,7 @@ const URL = 'https://the-trivia-api.com/api/questions?limit=5';
 
 export type QuestionType = {
     type: string;
-    difficulty: string,
+    difficulty: string;
     id: string;
     category: string;
     question: string;
