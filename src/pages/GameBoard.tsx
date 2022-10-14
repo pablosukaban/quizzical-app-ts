@@ -1,14 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { QuestionType } from '../App';
-import ButtonCustom from './ButtonCustom';
+import React, { useState } from 'react';
+import ButtonCustom from '../components/ButtonCustom';
 import { shuffle } from '../utils/shuffle';
-import { QuestionComponent } from './QuestionComponent';
+import { QuestionComponent } from '../components/QuestionComponent';
+import { QuestionType } from './Home';
+import { useParams, Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 
 export type GameBoardProps = {
     isLoading: boolean;
     isError: boolean;
     questionList: QuestionType[];
     handleRestart: () => void;
+};
+
+export const fetchQuiz = async (category: string): Promise<QuestionType[]> => {
+    const URL = `https://the-trivia-api.com/api/questions?categories=${category}&limit=5`;
+    const response = await fetch(URL);
+    const json = await response.json();
+    return json;
 };
 
 const getFormattedList = (questionList: QuestionType[]) => {
@@ -34,31 +43,28 @@ const getFormattedList = (questionList: QuestionType[]) => {
     return result;
 };
 
-const GameBoard: React.FC<GameBoardProps> = ({
-    isLoading,
-    isError,
-    questionList,
-    handleRestart,
-}) => {
+export const GameBoard = () => {
     const [gameOver, setGameOver] = useState(false);
     const [count, setCount] = useState(0);
     const [chosenAnswers, setChosenAnswers] = useState<
         { value: string; index: number }[]
     >([]);
 
-    const result = getFormattedList(questionList);
+    const { category } = useParams();
+    if (!category) return <h1>No category?</h1>;
 
-    useEffect(() => {
-        let c = 0;
-        for (const question of questionList) {
-            for (const chosen of chosenAnswers) {
-                if (question.correctAnswer === chosen.value) {
-                    c += 1;
-                }
-            }
-        }
-        setCount(c);
-    }, [gameOver]);
+    const {
+        data: questionList,
+        isLoading,
+        isError,
+    } = useQuery(['quiz'], () => fetchQuiz(category), {
+        refetchOnWindowFocus: false,
+    });
+
+    if (isLoading) return <h1>Loading</h1>;
+    if (isError) return <h1>Error</h1>;
+
+    const result = getFormattedList(questionList);
 
     const handleSelect = (value: string, index: number) => {
         const userAnswer = { value: value, index: index };
@@ -73,16 +79,24 @@ const GameBoard: React.FC<GameBoardProps> = ({
 
     const handleFinishGame = () => {
         setGameOver(true);
+
+        let c = 0;
+        for (const question of questionList) {
+            for (const chosen of chosenAnswers) {
+                if (question.correctAnswer === chosen.value) {
+                    c += 1;
+                }
+            }
+        }
+        setCount(c);
     };
 
     if (isLoading) return <h1>Loading...</h1>;
 
-    if (isError) return <h1>Самсынг вронг, перезагрузи</h1>;
-
     return (
         <div
             className={
-                'flex flex-col justify-center items-center px-20 py-10 border-2 border-gray-600 rounded-xl max-w-2xl shadow-xl gap-4'
+                'flex flex-col justify-center items-center px-20 py-10  shadow-md hover:shadow-lg rounded-xl max-w-2xl gap-4 transition'
             }
         >
             <div className={'flex flex-col justify-center items-start gap-6 '}>
@@ -97,25 +111,22 @@ const GameBoard: React.FC<GameBoardProps> = ({
                 ))}
             </div>
             {!gameOver ? (
-                <ButtonCustom text={'Завершить'} onClick={handleFinishGame} />
+                <ButtonCustom
+                    text={'Узнать результат'}
+                    onClick={handleFinishGame}
+                />
             ) : (
-                <div
-                    className={
-                        'flex flex-col justify-center items-center gap-4'
-                    }
-                >
-                    <h1>
-                        Вы набрали: <strong>{count}</strong> /{' '}
-                        <strong>5</strong>
+                <div className={'flex justify-center items-center gap-4'}>
+                    <h1 className="text-lg">
+                        Вы набрали: <strong>{count} / 5</strong>
                     </h1>
-                    <ButtonCustom
-                        text={'Начать заново'}
-                        onClick={handleRestart}
-                    />
+                    <Link to="/categories">
+                        <div className=" text-center rounded shadow border cursor-pointer py-4 px-2 transition">
+                            Завершить
+                        </div>
+                    </Link>
                 </div>
             )}
         </div>
     );
 };
-
-export default GameBoard;

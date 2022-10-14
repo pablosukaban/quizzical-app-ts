@@ -28,7 +28,7 @@ export const CategoriesList = () => {
 
     return (
         data && (
-            <div className="border rounded shadow-lg px-12 py-14 hover:border-gray-400 transition">
+            <div className=" rounded shadow-md px-12 py-14 hover:shadow-lg transition">
                 <div>
                     <h1 className="text-center text-gray-500 hover:text-gray-700 text-xl capitalize mb-6 font-bold cursor-default transition">
                         Выберите категорию вопросов
@@ -44,7 +44,7 @@ export const CategoriesList = () => {
 
                             return (
                                 <Link key={category} to={url}>
-                                    <div className="border text-center border-gray-400 rounded shadow cursor-pointer py-4 px-2 hover:bg-gray-50 transition">
+                                    <div className=" text-center  rounded shadow cursor-pointer py-4 px-2 hover:bg-gray-50 transition">
                                         {category}
                                     </div>
                                 </Link>
