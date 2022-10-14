@@ -2,13 +2,35 @@ import React, { useEffect, useState } from 'react';
 import Button from './components/ButtonCustom';
 import GameBoard from './components/GameBoard';
 
-const URL = 'https://opentdb.com/api.php?amount=5&type=multiple';
+const URL = 'https://the-trivia-api.com/api/questions?limit=5';
+//
+// {
+//     "category": "Music",
+//     "id": "622a1c397cc59eab6f950bf6",
+//     "correctAnswer": "The Doors",
+//     "incorrectAnswers": [
+//     "Styx",
+//     "The Pussycat Dolls",
+//     "Three 6 Mafia"
+// ],
+//     "question": "Which American rock band released the album 'Morrison Hotel'?",
+//     "tags": [
+//     "music"
+// ],
+//     "type": "Multiple Choice",
+//     "difficulty": "hard",
+//     "regions": []
+// },
+//
 
 export type QuestionType = {
     type: string;
+    difficulty: string,
+    id: string;
+    category: string;
     question: string;
-    correct_answer: string;
-    incorrect_answers: string[];
+    correctAnswer: string;
+    incorrectAnswers: string[];
 };
 
 function App() {
@@ -24,7 +46,7 @@ function App() {
                 const data = await response.json();
                 if (!ignore) {
                     setIsLoaded(true);
-                    setQuestionsList(data.results);
+                    setQuestionsList(data);
                 }
             } catch (err) {
                 console.log(err);

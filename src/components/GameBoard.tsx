@@ -24,12 +24,13 @@ const GameBoard: React.FC<GameBoardProps> = ({
 
     for (const singleQuestion of questionList) {
         const upgradedAnswers = [
-            ...singleQuestion.incorrect_answers,
-            singleQuestion.correct_answer,
+            ...singleQuestion.incorrectAnswers,
+            singleQuestion.correctAnswer,
         ].map((q) => ({
+            id: singleQuestion.id,
             value: q,
             pressed: false,
-            correct: q === singleQuestion.correct_answer,
+            correct: q === singleQuestion.correctAnswer,
         }));
         const obj = {
             question: singleQuestion.question,
@@ -42,7 +43,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
         let c = 0;
         for (const question of questionList) {
             for (const chosen of chosenAnswers) {
-                if (question.correct_answer === chosen.value) {
+                if (question.correctAnswer === chosen.value) {
                     c += 1;
                 }
             }
@@ -86,7 +87,7 @@ const GameBoard: React.FC<GameBoardProps> = ({
             {!gameOver ? (
                 <ButtonCustom
                     text={'Завершить'}
-                    onClick={() => handleFinishGame()}
+                    onClick={handleFinishGame}
                 />
             ) : (
                 <div
