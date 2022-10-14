@@ -5,7 +5,8 @@ import { shuffle } from '../utils/shuffle';
 import { QuestionComponent } from './QuestionComponent';
 
 export type GameBoardProps = {
-    isLoaded: boolean;
+    isLoading: boolean;
+    isError: boolean;
     questionList: QuestionType[];
     handleRestart: () => void;
 };
@@ -34,7 +35,8 @@ const getFormattedList = (questionList: QuestionType[]) => {
 };
 
 const GameBoard: React.FC<GameBoardProps> = ({
-    isLoaded,
+    isLoading,
+    isError,
     questionList,
     handleRestart,
 }) => {
@@ -73,7 +75,9 @@ const GameBoard: React.FC<GameBoardProps> = ({
         setGameOver(true);
     };
 
-    if (!isLoaded) return <h1>Loading...</h1>;
+    if (isLoading) return <h1>Loading...</h1>;
+
+    if (isError) return <h1>Самсынг вронг, перезагрузи</h1>;
 
     return (
         <div
