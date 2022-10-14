@@ -27,24 +27,19 @@ const SingleAnswer: React.FC<SingleAnswerProps> = ({
     if (gameOver) {
         if (answer.pressed) {
             checked = {
-                backgroundColor: '#F8BCBC',
-                color: 'black',
-                outline: '2px solid #AD6A6AFF',
+                outline: '3px solid #F8BCBC',
                 ['pointerEvents']: 'none',
             };
 
             if (answer.correct) {
                 checked = {
-                    backgroundColor: '#94D7A2',
-                    color: 'black',
-                    outline: '2px solid #62A96FFF',
+                    outline: '3px solid #94D7A2',
                     ['pointerEvents']: 'none',
                 };
             }
         } else if (answer.correct) {
             checked = {
-                backgroundColor: '#94D7A2',
-                color: 'black',
+                outline: '3px solid #94D7A2',
                 ['pointerEvents']: 'none',
             };
         } else {
@@ -59,9 +54,8 @@ const SingleAnswer: React.FC<SingleAnswerProps> = ({
         <li
             key={answer.value}
             onClick={() => handleClick(answer.value)}
-            className={`text-center outline outline-gray-300 text-gray-700 hover:outline-gray-800 rounded-xl py-1 px-4 cursor-pointer transition ${
-                answer.pressed &&
-                'bg-gray-600 text-gray-200 outline-none border-none'
+            className={`text-center outline outline-gray-300 text-gray-700 hover:outline-gray-800 rounded-xl py-1 px-4 cursor-pointer transition-all ${
+                answer.pressed && 'outline-gray-600'
             } `}
             style={checked}
         >
