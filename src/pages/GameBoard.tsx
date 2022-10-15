@@ -2,18 +2,11 @@ import React, { useState } from 'react';
 import ButtonCustom from '../components/ButtonCustom';
 import { shuffle } from '../utils/shuffle';
 import { QuestionComponent } from '../components/QuestionComponent';
-import { QuestionType } from './Home';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Confetti from 'react-confetti';
 import { LoadingPage } from '../components/LoadingPage';
-
-export type GameBoardProps = {
-    isLoading: boolean;
-    isError: boolean;
-    questionList: QuestionType[];
-    handleRestart: () => void;
-};
+import { QuestionType } from '../types';
 
 export const fetchQuiz = async (category: string): Promise<QuestionType[]> => {
     const URL = `https://the-trivia-api.com/api/questions?categories=${category}&limit=5`;

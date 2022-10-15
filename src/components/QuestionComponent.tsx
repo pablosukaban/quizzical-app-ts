@@ -1,48 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-
-type AnswerType = { value: string; pressed: boolean; correct: boolean };
-
-type QuestionComponentProps = {
-    question: {
-        question: string;
-        answers: AnswerType[];
-    };
-    handleSelect: (value: string, index: number) => void;
-    index: number;
-    gameOver: boolean;
-};
-
-type SingleAnswerProps = {
-    answer: AnswerType;
-    index: number;
-    handleClick: (value: string) => void;
-    gameOver: boolean;
-};
-
-const answersVariants = {
-    hidden: {
-        opacity: 0,
-    },
-    visible: (custom: number) => ({
-        opacity: 1,
-        transition: {
-            delay: custom / 10 + 1,
-        },
-    }),
-};
-
-const questionVariants = {
-    hidden: {
-        opacity: 0,
-    },
-    visible: (custom: number) => ({
-        opacity: 1,
-        transition: {
-            delay: custom / 10 + 0.2,
-        },
-    }),
-};
+import { QuestionComponentProps, SingleAnswerProps } from '../types';
+import { answersVariants, questionVariants } from '../variants';
 
 const SingleAnswer: React.FC<SingleAnswerProps> = ({
     answer,

@@ -1,21 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-
-export type QuestionType = {
-    type: string;
-    difficulty: string;
-    id: string;
-    category: string;
-    question: string;
-    correctAnswer: string;
-    incorrectAnswers: string[];
-};
-
-export const variants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
-};
+import { homeVariants } from '../variants';
 
 export const Home = () => {
     return (
@@ -26,7 +12,7 @@ export const Home = () => {
         >
             <motion.h1
                 className={'font-semibold text-3xl cursor-default'}
-                variants={variants}
+                variants={homeVariants}
                 initial={'hidden'}
                 animate={'visible'}
             >
@@ -34,7 +20,7 @@ export const Home = () => {
             </motion.h1>
             <motion.p
                 className={'text-xl cursor-default'}
-                variants={variants}
+                variants={homeVariants}
                 initial={'hidden'}
                 animate={'visible'}
                 transition={{ delay: 0.4 }}
@@ -45,7 +31,7 @@ export const Home = () => {
             <Link to={'/categories'}>
                 <motion.div
                     className="rounded px-4 py-3 shadow border cursor-pointer transition-colors"
-                    variants={variants}
+                    variants={homeVariants}
                     initial={'hidden'}
                     animate={'visible'}
                     transition={{ delay: 0.7 }}

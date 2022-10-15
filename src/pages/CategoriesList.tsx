@@ -3,25 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { LoadingPage } from '../components/LoadingPage';
 import { motion } from 'framer-motion';
+import { CategoryType } from '../types';
+import { categoriesVariants } from '../variants';
 
 const URL = 'https://the-trivia-api.com/api/categories';
-
-export const variantsWidthCustom = {
-    hidden: {
-        opacity: 0,
-    },
-    visible: (custom: number) => ({
-        opacity: 1,
-        transition: {
-            delay: custom / 10 + 0.2,
-        },
-    }),
-};
-
-type CategoryType = {
-    category: string;
-    tags: string[];
-};
 
 const fetchCategories = async (): Promise<CategoryType> => {
     const response = await fetch(URL);
@@ -56,7 +41,7 @@ export const CategoriesList = () => {
                         return (
                             <Link to={url} key={item[0]}>
                                 <motion.div
-                                    variants={variantsWidthCustom}
+                                    variants={categoriesVariants}
                                     custom={index}
                                     initial={'hidden'}
                                     animate={'visible'}
