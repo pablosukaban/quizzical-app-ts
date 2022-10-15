@@ -5,6 +5,8 @@ import { QuestionComponent } from '../components/QuestionComponent';
 import { QuestionType } from './Home';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import Confetti from 'react-confetti';
+import { LoadingPage } from '../components/LoadingPage';
 
 export type GameBoardProps = {
     isLoading: boolean;
@@ -61,7 +63,7 @@ export const GameBoard = () => {
         refetchOnWindowFocus: false,
     });
 
-    if (isLoading) return <h1>Loading</h1>;
+    if (isLoading) return <LoadingPage />;
     if (isError) return <h1>Error</h1>;
 
     const result = getFormattedList(questionList);
@@ -91,7 +93,8 @@ export const GameBoard = () => {
         setCount(c);
     };
 
-    if (isLoading) return <h1>Loading...</h1>;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
 
     return (
         <div
@@ -99,6 +102,7 @@ export const GameBoard = () => {
                 'flex flex-col justify-center items-center px-20 py-10  shadow-md hover:shadow-lg rounded-xl max-w-2xl gap-4 transition'
             }
         >
+            {count === 5 && <Confetti width={width} height={height} />}
             <div className={'flex flex-col justify-center items-start gap-6 '}>
                 {result.map((question, index) => (
                     <QuestionComponent
@@ -121,7 +125,7 @@ export const GameBoard = () => {
                         Вы набрали: <strong>{count} / 5</strong>
                     </h1>
                     <Link to="/categories">
-                        <div className=" text-center rounded shadow border cursor-pointer py-4 px-2 transition">
+                        <div className=" text-center rounded hover:shadow border border-white hover:border-gray-200 cursor-pointer py-2 px-3 transition">
                             Завершить
                         </div>
                     </Link>

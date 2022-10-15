@@ -1,8 +1,22 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
+import { LoadingPage } from '../components/LoadingPage';
+import { motion } from 'framer-motion';
 
 const URL = 'https://the-trivia-api.com/api/categories';
+
+export const variantsWidthCustom = {
+    hidden: {
+        opacity: 0,
+    },
+    visible: (custom: number) => ({
+        opacity: 1,
+        transition: {
+            delay: custom / 10 + 0.2,
+        },
+    }),
+};
 
 type CategoryType = {
     category: string;
@@ -23,36 +37,39 @@ export const CategoriesList = () => {
         }
     );
 
-    if (isLoading) return <h1>Loading...</h1>;
+    if (isLoading) return <LoadingPage />;
     if (isError) return <h1>Error! </h1>;
 
     return (
-        data && (
-            <div className=" rounded shadow-md px-12 py-14 hover:shadow-lg transition">
-                <div>
-                    <h1 className="text-center text-gray-500 hover:text-gray-700 text-xl capitalize mb-6 font-bold cursor-default transition">
-                        Выберите категорию вопросов
-                    </h1>
-                    <div className="grid grid-cols-5 gap-8">
-                        {Object.entries(data).map((item) => {
-                            const category = item[0];
-                            const tags = item[1];
-                            const url =
-                                tags.length > 1
-                                    ? tags[tags.length - 1]
-                                    : tags[0];
+        <div className=" rounded shadow-md px-12 py-14 hover:shadow-lg transition">
+            <div>
+                <h1 className="text-center text-gray-500 hover:text-gray-700 text-xl capitalize mb-6 font-bold cursor-default transition">
+                    Выберите категорию вопросов
+                </h1>
+                <div className="grid grid-cols-5 gap-8">
+                    {Object.entries(data).map((item, index) => {
+                        const category = item[0];
+                        const tags = item[1];
+                        const url =
+                            tags.length > 1 ? tags[tags.length - 1] : tags[0];
 
-                            return (
-                                <Link key={category} to={url}>
-                                    <div className=" text-center  rounded shadow cursor-pointer py-4 px-2 hover:bg-gray-50 transition">
-                                        {category}
-                                    </div>
-                                </Link>
-                            );
-                        })}
-                    </div>
+                        return (
+                            <Link to={url} key={item[0]}>
+                                <motion.div
+                                    variants={variantsWidthCustom}
+                                    custom={index}
+                                    initial={'hidden'}
+                                    animate={'visible'}
+                                    key={category}
+                                    className=" text-center  rounded shadow cursor-pointer py-4 px-2 hover:bg-gray-50 transition-colors"
+                                >
+                                    {category}
+                                </motion.div>
+                            </Link>
+                        );
+                    })}
                 </div>
             </div>
-        )
+        </div>
     );
 };

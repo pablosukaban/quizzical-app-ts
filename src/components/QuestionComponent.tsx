@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 
 type AnswerType = { value: string; pressed: boolean; correct: boolean };
 
@@ -14,12 +15,38 @@ type QuestionComponentProps = {
 
 type SingleAnswerProps = {
     answer: AnswerType;
+    index: number;
     handleClick: (value: string) => void;
     gameOver: boolean;
 };
 
+const answersVariants = {
+    hidden: {
+        opacity: 0,
+    },
+    visible: (custom: number) => ({
+        opacity: 1,
+        transition: {
+            delay: custom / 10 + 1,
+        },
+    }),
+};
+
+const questionVariants = {
+    hidden: {
+        opacity: 0,
+    },
+    visible: (custom: number) => ({
+        opacity: 1,
+        transition: {
+            delay: custom / 10 + 0.2,
+        },
+    }),
+};
+
 const SingleAnswer: React.FC<SingleAnswerProps> = ({
     answer,
+    index,
     handleClick,
     gameOver,
 }) => {
@@ -51,7 +78,11 @@ const SingleAnswer: React.FC<SingleAnswerProps> = ({
     }
 
     return (
-        <li
+        <motion.li
+            variants={answersVariants}
+            custom={index * 2}
+            initial={'hidden'}
+            animate={'visible'}
             key={answer.value}
             onClick={() => handleClick(answer.value)}
             className={`text-center outline outline-gray-300 text-gray-700 hover:outline-gray-800 rounded-xl py-1 px-4 cursor-pointer transition-all ${
@@ -60,9 +91,10 @@ const SingleAnswer: React.FC<SingleAnswerProps> = ({
             style={checked}
         >
             {answer.value}
-        </li>
+        </motion.li>
     );
 };
+
 export const QuestionComponent: React.FC<QuestionComponentProps> = ({
     question,
     handleSelect,
@@ -86,17 +118,24 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({
 
     return (
         <div className={'border-b-2 pb-4 w-full'}>
-            <h1 className={'font-semibold text-xl'}>
+            <motion.h1
+                className={'font-semibold text-xl cursor-default'}
+                variants={questionVariants}
+                initial={'hidden'}
+                animate={'visible'}
+                custom={index * 2}
+            >
                 {singleQuestion.question}
-            </h1>
+            </motion.h1>
             <ul
                 className={
                     'flex justify-start items-baseline gap-4 text-base leading-tight pt-2'
                 }
             >
-                {singleQuestion.answers.map((answer) => (
+                {singleQuestion.answers.map((answer, index) => (
                     <SingleAnswer
                         key={answer.value}
+                        index={index}
                         answer={answer}
                         handleClick={handleClick}
                         gameOver={gameOver}
