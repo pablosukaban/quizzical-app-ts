@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useIsPresent } from 'framer-motion';
 import { homeVariants } from '../variants';
 
 export const Home = () => {
+    const isPresent = useIsPresent();
+
     return (
         <div
             className={

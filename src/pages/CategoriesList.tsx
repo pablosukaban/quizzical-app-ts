@@ -23,6 +23,7 @@ export const CategoriesList = () => {
     );
 
     if (isLoading) return <LoadingPage />;
+
     if (isError) return <h1>Error! </h1>;
 
     return (

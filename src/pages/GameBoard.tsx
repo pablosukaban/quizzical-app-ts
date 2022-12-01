@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import Confetti from 'react-confetti';
 import { LoadingPage } from '../components/LoadingPage';
 import { QuestionType } from '../types';
+import { motion, useIsPresent } from 'framer-motion';
 
 export const fetchQuiz = async (category: string): Promise<QuestionType[]> => {
     const URL = `https://the-trivia-api.com/api/questions?categories=${category}&limit=5`;
@@ -39,6 +40,7 @@ const getFormattedList = (questionList: QuestionType[]) => {
 };
 
 export const GameBoard = () => {
+    const isPresent = useIsPresent();
     const [gameOver, setGameOver] = useState(false);
     const [count, setCount] = useState(0);
     const [chosenAnswers, setChosenAnswers] = useState<
@@ -92,7 +94,7 @@ export const GameBoard = () => {
     return (
         <div
             className={
-                'flex flex-col justify-center items-center px-20 py-10  shadow-md hover:shadow-lg rounded-xl max-w-2xl gap-4 transition'
+                'flex flex-col justify-center items-center px-20 py-10  shadow-md hover:shadow-lg rounded-xl max-w-3xl gap-4 transition'
             }
         >
             {count === 5 && <Confetti width={width} height={height} />}
