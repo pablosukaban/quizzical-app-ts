@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { QuestionComponentProps, SingleAnswerProps } from '../types';
-import { answersVariants, questionVariants } from '../variants';
+import {
+    answersVariants,
+    contaienrAnswersVariants,
+    containerVariants,
+} from '../variants';
 
 const SingleAnswer: React.FC<SingleAnswerProps> = ({
     answer,
-    index,
     handleClick,
     gameOver,
 }) => {
@@ -38,16 +41,13 @@ const SingleAnswer: React.FC<SingleAnswerProps> = ({
 
     return (
         <motion.li
-            variants={answersVariants}
-            custom={index * 2}
-            initial={'hidden'}
-            animate={'visible'}
             key={answer.value}
             onClick={() => handleClick(answer.value)}
-            className={`cursor-pointer rounded-xl py-1 px-4 text-center text-gray-700 outline outline-gray-300 transition-all hover:outline-gray-800 ${
+            className={`cursor-pointer rounded-xl py-1 px-4 text-center text-gray-700 outline outline-gray-300 transition-colors hover:outline-gray-800 ${
                 answer.pressed && 'outline-gray-600'
             } `}
             style={checked}
+            variants={answersVariants}
         >
             {answer.value}
         </motion.li>
@@ -76,20 +76,19 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({
     };
 
     return (
-        <div className={'w-full border-b-2 pb-4'}>
+        <div className={'w-full border-b-2 pb-2 md:pb-4'}>
             <motion.h1
-                className={'cursor-default text-xl font-semibold'}
-                variants={questionVariants}
-                initial={'hidden'}
-                animate={'visible'}
-                custom={index * 2}
+                className={'cursor-default text-base font-semibold md:text-xl'}
             >
                 {singleQuestion.question}
             </motion.h1>
-            <ul
+            <motion.ul
                 className={
-                    'flex items-baseline justify-start gap-4 pt-2 text-base leading-tight'
+                    'grid grid-cols-2 items-stretch gap-2 pt-2 text-base leading-tight md:grid-cols-4 md:items-start md:gap-4'
                 }
+                variants={contaienrAnswersVariants}
+                initial="hidden"
+                animate="show"
             >
                 {singleQuestion.answers.map((answer, index) => (
                     <SingleAnswer
@@ -100,7 +99,7 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({
                         gameOver={gameOver}
                     />
                 ))}
-            </ul>
+            </motion.ul>
         </div>
     );
 };

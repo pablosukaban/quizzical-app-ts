@@ -1,15 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useIsPresent } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { homeVariants } from '../variants';
 
 export const Home = () => {
-    const isPresent = useIsPresent();
-
     return (
         <div
             className={
-                'flex flex-col items-center justify-center gap-8 rounded border p-20 shadow-md transition-all hover:shadow-lg'
+                'flex flex-col items-center justify-center gap-8 rounded border p-20 shadow-md transition-colors hover:shadow-lg'
             }
         >
             <motion.h1
@@ -20,15 +18,15 @@ export const Home = () => {
             >
                 Quizzical
             </motion.h1>
-            {/* <motion.p
+            <motion.p
                 className={'cursor-default text-xl'}
                 variants={homeVariants}
                 initial={'hidden'}
                 animate={'visible'}
                 transition={{ delay: 0.4 }}
             >
-                Описание
-            </motion.p> */}
+                Игра-викторина с множеством категорий
+            </motion.p>
 
             <Link to={'/categories'}>
                 <motion.div

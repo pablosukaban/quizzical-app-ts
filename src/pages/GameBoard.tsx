@@ -7,7 +7,6 @@ import { useQuery } from '@tanstack/react-query';
 import Confetti from 'react-confetti';
 import { LoadingPage } from '../components/LoadingPage';
 import { QuestionType } from '../types';
-import { motion, useIsPresent } from 'framer-motion';
 
 export const fetchQuiz = async (category: string): Promise<QuestionType[]> => {
     const URL = `https://the-trivia-api.com/api/questions?categories=${category}&limit=5`;
@@ -40,7 +39,6 @@ const getFormattedList = (questionList: QuestionType[]) => {
 };
 
 export const GameBoard = () => {
-    const isPresent = useIsPresent();
     const [gameOver, setGameOver] = useState(false);
     const [count, setCount] = useState(0);
     const [chosenAnswers, setChosenAnswers] = useState<
@@ -94,7 +92,7 @@ export const GameBoard = () => {
     return (
         <div
             className={
-                'flex max-w-3xl flex-col items-center justify-center gap-4 rounded-xl  border px-20 py-10 shadow-md transition hover:shadow-lg'
+                'flex max-w-3xl flex-col items-center justify-center gap-4 rounded-xl  border px-20 py-10 shadow-md transition-colors hover:shadow-lg'
             }
         >
             {count === 5 && <Confetti width={width} height={height} />}
@@ -120,7 +118,7 @@ export const GameBoard = () => {
                         Вы набрали: <strong>{count} / 5</strong>
                     </h1>
                     <Link to="/categories">
-                        <div className=" cursor-pointer rounded border border-white py-2 px-3 text-center transition hover:border-gray-200 hover:shadow">
+                        <div className=" cursor-pointer rounded border border-white py-2 px-3 text-center transition-colors hover:border-gray-200 hover:shadow">
                             Завершить
                         </div>
                     </Link>
