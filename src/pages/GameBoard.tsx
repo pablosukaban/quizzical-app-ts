@@ -94,7 +94,7 @@ export const GameBoard = () => {
     return (
         <div
             className={
-                'flex max-w-3xl flex-col items-center justify-center gap-4  rounded-xl px-20 py-10 shadow-md transition hover:shadow-lg'
+                'flex max-w-3xl flex-col items-center justify-center gap-4 rounded-xl  border px-20 py-10 shadow-md transition hover:shadow-lg'
             }
         >
             {count === 5 && <Confetti width={width} height={height} />}

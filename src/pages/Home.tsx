@@ -9,7 +9,7 @@ export const Home = () => {
     return (
         <div
             className={
-                'flex flex-col items-center justify-center gap-8 rounded p-20 shadow-md transition-all hover:shadow-lg'
+                'flex flex-col items-center justify-center gap-8 rounded border p-20 shadow-md transition-all hover:shadow-lg'
             }
         >
             <motion.h1
@@ -20,7 +20,7 @@ export const Home = () => {
             >
                 Quizzical
             </motion.h1>
-            <motion.p
+            {/* <motion.p
                 className={'cursor-default text-xl'}
                 variants={homeVariants}
                 initial={'hidden'}
@@ -28,11 +28,11 @@ export const Home = () => {
                 transition={{ delay: 0.4 }}
             >
                 Описание
-            </motion.p>
+            </motion.p> */}
 
             <Link to={'/categories'}>
                 <motion.div
-                    className="cursor-pointer rounded border px-4 py-3 shadow transition-colors"
+                    className="cursor-pointer rounded border px-4 py-3 shadow transition-colors hover:border-gray-300"
                     variants={homeVariants}
                     initial={'hidden'}
                     animate={'visible'}
