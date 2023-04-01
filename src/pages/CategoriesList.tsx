@@ -32,7 +32,7 @@ export const CategoriesList = () => {
                 <h1 className="mb-6 cursor-default text-center text-xl capitalize text-gray-500 transition hover:text-gray-700">
                     Выберите категорию вопросов
                 </h1>
-                <div className="grid grid-cols-5 gap-8">
+                <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:gap-8">
                     {Object.entries(data).map((item, index) => {
                         const category = item[0];
                         const tags = item[1];
