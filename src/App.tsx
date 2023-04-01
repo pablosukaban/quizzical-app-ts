@@ -32,7 +32,7 @@ const App = () => {
     if (!element) return null;
 
     return (
-        <div className="min-h-screen flex justify-center items-center py-6">
+        <div className="flex min-h-screen items-center justify-center py-6">
             <AnimatePresence mode="wait">
                 {React.cloneElement(element, { key: location.pathname })}
             </AnimatePresence>

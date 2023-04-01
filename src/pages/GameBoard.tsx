@@ -94,11 +94,11 @@ export const GameBoard = () => {
     return (
         <div
             className={
-                'flex flex-col justify-center items-center px-20 py-10  shadow-md hover:shadow-lg rounded-xl max-w-3xl gap-4 transition'
+                'flex max-w-3xl flex-col items-center justify-center gap-4  rounded-xl px-20 py-10 shadow-md transition hover:shadow-lg'
             }
         >
             {count === 5 && <Confetti width={width} height={height} />}
-            <div className={'flex flex-col justify-center items-start gap-6 '}>
+            <div className={'flex flex-col items-start justify-center gap-6 '}>
                 {result.map((question, index) => (
                     <QuestionComponent
                         key={question.question}
@@ -115,12 +115,12 @@ export const GameBoard = () => {
                     onClick={handleFinishGame}
                 />
             ) : (
-                <div className={'flex justify-center items-center gap-4'}>
+                <div className={'flex items-center justify-center gap-4'}>
                     <h1 className="text-lg">
                         Вы набрали: <strong>{count} / 5</strong>
                     </h1>
                     <Link to="/categories">
-                        <div className=" text-center rounded hover:shadow border border-white hover:border-gray-200 cursor-pointer py-2 px-3 transition">
+                        <div className=" cursor-pointer rounded border border-white py-2 px-3 text-center transition hover:border-gray-200 hover:shadow">
                             Завершить
                         </div>
                     </Link>

@@ -11,8 +11,8 @@ const ButtonCustom = ({
         <button
             onClick={onClick}
             className={
-                'bg-white border border-white hover:border-gray-200 text-black px-6 py-2 rounded ' +
-                'font-semibold text-lg hover:shadow-md active:shadow-none active:translate-y-0.5 transition'
+                'rounded border border-white bg-white px-6 py-2 text-black hover:border-gray-200 ' +
+                'text-lg font-semibold transition hover:shadow-md active:translate-y-0.5 active:shadow-none'
             }
         >
             {text}

@@ -44,7 +44,7 @@ const SingleAnswer: React.FC<SingleAnswerProps> = ({
             animate={'visible'}
             key={answer.value}
             onClick={() => handleClick(answer.value)}
-            className={`text-center outline outline-gray-300 text-gray-700 hover:outline-gray-800 rounded-xl py-1 px-4 cursor-pointer transition-all ${
+            className={`cursor-pointer rounded-xl py-1 px-4 text-center text-gray-700 outline outline-gray-300 transition-all hover:outline-gray-800 ${
                 answer.pressed && 'outline-gray-600'
             } `}
             style={checked}
@@ -76,9 +76,9 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({
     };
 
     return (
-        <div className={'border-b-2 pb-4 w-full'}>
+        <div className={'w-full border-b-2 pb-4'}>
             <motion.h1
-                className={'font-semibold text-xl cursor-default'}
+                className={'cursor-default text-xl font-semibold'}
                 variants={questionVariants}
                 initial={'hidden'}
                 animate={'visible'}
@@ -88,7 +88,7 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({
             </motion.h1>
             <ul
                 className={
-                    'flex justify-start items-baseline gap-4 text-base leading-tight pt-2'
+                    'flex items-baseline justify-start gap-4 pt-2 text-base leading-tight'
                 }
             >
                 {singleQuestion.answers.map((answer, index) => (

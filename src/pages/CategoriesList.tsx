@@ -27,9 +27,9 @@ export const CategoriesList = () => {
     if (isError) return <h1>Error! </h1>;
 
     return (
-        <div className=" rounded shadow-md px-12 py-14 hover:shadow-lg transition">
+        <div className="rounded px-12 py-14 shadow-md transition hover:shadow-lg">
             <div>
-                <h1 className="text-center text-gray-500 hover:text-gray-700 text-xl capitalize mb-6 font-bold cursor-default transition">
+                <h1 className="mb-6 cursor-default text-center text-xl font-bold capitalize text-gray-500 transition hover:text-gray-700">
                     Выберите категорию вопросов
                 </h1>
                 <div className="grid grid-cols-5 gap-8">
@@ -47,7 +47,7 @@ export const CategoriesList = () => {
                                     initial={'hidden'}
                                     animate={'visible'}
                                     key={category}
-                                    className=" text-center  rounded shadow cursor-pointer py-4 px-2 hover:bg-gray-50 transition-colors"
+                                    className=" cursor-pointer  rounded py-4 px-2 text-center shadow transition-colors hover:bg-gray-50"
                                 >
                                     {category}
                                 </motion.div>
